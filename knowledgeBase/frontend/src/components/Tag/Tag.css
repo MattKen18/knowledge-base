@@ -1,0 +1,98 @@
+.tag-grid-element {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* box-shadow: 0 0 5px rgb(197, 193, 193); */
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+  user-select: none;
+  height: 200px;
+
+}
+
+
+.tag-grid-element:hover {
+  cursor: pointer;
+  /* box-shadow: 0 0 16px rgb(85, 81, 81); */
+}
+
+.tag-element-holder {
+  /* background-color: white; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 90%;
+  height: auto;
+  width: 90%
+}
+
+p.tag-element-name {
+  font-size: 1.5rem;
+  margin: 0;
+  text-align: center;
+  color: white;
+}
+
+div.tag-grid-form-holder {
+  display: none;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+form.tag-grid-form {
+  display: none;
+}
+
+input.tag-grid-color-field {
+  border: 5px solid white;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  /* border-radius: 15px; */
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+}
+
+input.tag-grid-color-field:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+input.tag-grid-color-field:active {
+  transform: scale(1.1);
+}
+
+div.color-save-btn-holder {
+  width: 90%;
+  padding: 2px;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+
+div.tick-icon-holder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  font-size: 3rem;
+  color: white;
+  font-weight: bolder;
+  transition: all 0.1s ease-in-out;
+
+}
+
+div.tick-icon-holder:hover {
+  transform: scale(1.2);
+  /* color: #6D16E9; */
+}
+
+.del-clicked {
+  border: 3px solid red;
+}

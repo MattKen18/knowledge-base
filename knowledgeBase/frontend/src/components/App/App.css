@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway|Rubik|Anton|JetBrains+Mono|Inter+Handgloves|Francois+One|Patrick+Hand|Lobster+Two|Kalam");
+
+/* 
+-------- Site Color Scheme -------- 
+#edf0f3
+white
+black
+#6D16E9
+
+*/
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+html,
+body {
+  height: auto;
+  min-height: 1000px;
+  font-family: Anton, "Francois One", "JetBrains Mono", Arial, Helvetica, sans-serif;
+  /* letter-spacing: 1px; */
+}
+
+input.form-control:active,
+input.form-control:focus,
+select.form-control:active,
+select.form-control:focus,
+textarea.form-control:active,
+textarea.form-control:focus {
+  box-shadow: none;
+  border: 1px solid grey;
+  outline: 0;
+}
+
+#site-wrapper {
+  height: fit-content;
+
+}
+
+#site-body {
+  padding: 20px;
+  background-color: #edf0f3;
+  /* background-color: rgba(218, 225, 231, 0.452); */
+  width: 100%;
+  min-height: 1000px;
+  height: inherit;
+}
+
+.content-holder {
+  background-color: rgba(255, 255, 255, 0.438);
+  width: 65%;
+  margin: auto;
+  min-height: 500px;
+  height: auto;
+  padding: 20px;
+}
+
+.site-heading {
+  text-align: center;
+  font-size: 2rem;
+  /* margin-top: 30px; */
+}
+
+.site-btn {
+  background-color: white;
+  color: #6D16E9;
+  border-color: #6D16E9;
+  transition: all 0.3s ease-in-out;
+  user-select: none;
+}
+
+.site-btn:hover {
+  background-color: #6D16E9;
+  color: white;
+  border-color: #6D16E9;
+
+}
+
+.site-btn:focus,
+.site-btn:active {
+  box-shadow: none;
+  outline: 0;
+}
+
+.site-btn:active {
+  transform: scale(0.85)
+}

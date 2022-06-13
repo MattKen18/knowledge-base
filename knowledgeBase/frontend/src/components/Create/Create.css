@@ -1,0 +1,52 @@
+/* #create-entry-form-holder {
+  background-color: rgba(255, 255, 255, 0.438);
+  width: 65%;
+  margin: auto;
+  min-height: 500px;
+  height: auto;
+  padding: 20px;
+} */
+
+.entry-page-heading {
+  padding-top: 20px;
+}
+
+.clear-filter-btn {
+  width: 100%;
+  margin: auto;
+}
+
+form#create-entry-form {
+  padding: 10px;
+  padding-top: 20px;
+}
+
+form#create-entry-form div.form-element-holder {
+  margin-bottom: 15px;
+}
+
+form #inner-entry-form {
+  width: 80%;
+  margin: auto;
+}
+
+input#tag-color.form-control.tag-color-field {
+  height: 50px;
+  padding: 0;
+  overflow: hidden;
+}
+
+form#create-tag-form {
+  display: none;
+  padding: 15px;
+  width: 80%;
+  margin: auto;
+  box-shadow: 0 0 5px rgb(216, 210, 210);
+  /* border-radius: 15px; */
+}
+
+#create-tag-btn {
+  display: block;
+  width: 100px;
+  margin: auto;
+}

@@ -1,0 +1,78 @@
+p#delete-tag-warning-message {
+  display: none;
+  text-align: center;
+  margin-bottom: 0;
+  font-weight: lighter;
+}
+
+p#delete-tag-warning-message span {
+  color: red;
+}
+
+#tags-holder {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+div#add-delete-options-holder {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 
+div#create-tag-form-holder {
+  height: auto;
+} */
+
+button.create-tag-pane-btn.site-btn {
+  margin-right: 20px;
+  /* display: inline-block; */
+  /* width: 100px; */
+}
+
+#delete-tags-toggle-icon {
+  font-size: 2rem;
+  color: red;
+  opacity: 0.7;
+  transition: all 0.2s ease-in-out;
+}
+
+#delete-tags-toggle-icon:hover {
+  cursor: pointer;
+}
+
+#delete-tags-toggle-icon:active {
+  transform: scale(0.8);
+}
+
+.tag-grid-element-holder {
+  /* transition: all 0.2s ease-in-out; */
+  /* animation-name: deleting; */
+  animation-duration: 0.8s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  /* animation: deleting 0.15s infinite ease-in-out; */
+
+}
+
+@keyframes deleting {
+  0% {
+    transform: rotate(0deg);
+    transform: scale(1);
+  }
+
+  50% {
+    transform: rotate(1deg);
+    transform: scale(0.98);
+  }
+
+  100% {
+    transform: rotate(0deg);
+    transform: scale(1);
+
+  }
+}
