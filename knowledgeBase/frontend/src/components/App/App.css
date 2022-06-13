@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Raleway|Rubik|Anton|JetBrains+Mono|Inter+Handgloves|Francois+One|Patrick+Hand|Lobster+Two|Kalam");
+@import url("https://fonts.googleapis.com/css?family=Raleway|Rubik|Anton|JetBrains+Mono|Inter+Handgloves|Francois+One|Patrick+Hand|Lobster+Two|Kalam|Futura");
 
 /* 
 -------- Site Color Scheme -------- 
@@ -53,6 +53,7 @@ body {
   height: auto;
   min-height: 1000px;
   font-family: Anton, "Francois One", "JetBrains Mono", Arial, Helvetica, sans-serif;
+  /* font-weight: 500; */
   /* letter-spacing: 1px; */
 }
 

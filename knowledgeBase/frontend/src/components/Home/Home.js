@@ -104,9 +104,6 @@ const Home = () => {
     const filterBtn = document.getElementById("filter-btn");
     filterBtn.disabled = false;
 
-    // if (this.state.activeTags) {
-    //   this.state.activeTags[0].style.borderLeftWidth = "0";
-    // }
     fetch(url, {
       method: "GET",
       headers: {
@@ -136,60 +133,13 @@ const Home = () => {
 
     e.target.style.borderLeftWidth = '7px';
     e.target.style.borderLeftColor = `${userTags[parseInt(e.target.id.split('_')[1])].color}`;
-    // e.target.style.cursor = 'pointer';
   }
 
   const hideTagColorOnExitHover = e => {
     if (e.target !== activeTag) {
       e.target.style.borderLeftWidth = '0';
     }
-    // if (e.target.className !== "user-tag-selector active-tag") {
-    //   e.target.style.borderLeftWidth = '0';
-    // }
-
-    // if (!this.state.filtering) {
-    //   e.target.style.borderLeftWidth = '0';
-    // }
   }
-
-  // const useSetTagColorOnClick = e => {
-  //   if (!didMount.current) {
-  //     didMount.current = true;
-  //     return;
-  //   }
-  //   useEffect(() => {
-  //     e.target.className += " active-tag";
-  //     if (activeTags.length > 1) {
-  //       activeTags[0].style.borderLeftWidth = "0";
-  //       activeTags[0].classList.remove("active-tag");
-  //       setActiveTags(activeTags.slice(1));
-  //     }
-  //     e.target.style.borderLeftWidth = "7px";
-  //     e.target.style.borderLeftColor = `${this.state.userTags[parseInt(e.target.id.split('_')[1])].color}`;
-  //   }, [activeTags])
-
-  //   setActiveTags([...activeTags, e.target])
-  // }
-
-  // const setTagColorOnClick = e => {
-
-  //   setActiveTags((prevState) => {
-  //     return [...prevState, e.target]
-  //   })
-
-  //   e.target.className += " active-tag";
-
-  //   if (activeTags.length > 1) {
-  //     activeTags[0].style.borderLeftWidth = "0";
-  //     activeTags[0].classList.remove("active-tag");
-  //     setActiveTags(activeTags.slice(1));
-  //   }
-
-  //   e.target.style.borderLeftWidth = "7px";
-  //   e.target.style.borderLeftColor = `${userTags[parseInt(e.target.id.split('_')[1])].color}`;
-
-  //   // setActiveTags([...activeTags, e.target])
-  // }
 
 
   const setTagColorOnClick = e => {

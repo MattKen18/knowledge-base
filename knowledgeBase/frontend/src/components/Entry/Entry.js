@@ -1,77 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Entry.css';
 import $, { map } from 'jquery';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro' // <-- import styles to be used
 
-class Entry extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userTags: [],
-      id: this.props.entryDetails.id,
-      tag: this.props.entryDetails.tag,
-      content: this.props.entryDetails.content,
-      answer: this.props.entryDetails.answer,
-    };
 
-    this.getCookie = this.getCookie.bind(this);
-    this.showAnswer = this.showAnswer.bind(this);
-    this.toggleEditPane = this.toggleEditPane.bind(this);
-    this.updateEntry = this.updateEntry.bind(this);
-    this.getTags = this.getTags.bind(this);
-    this.deleteEntry = this.deleteEntry.bind(this);
-  }
 
-  componentDidMount() {
-    document.getElementById(`tag-marker${this.state.id + this.props.entryKey}`).style.backgroundColor = this.state.tag.color;
-    this.getTags();
-  }
+const Entry = (props) => {
+  const [userTags, setUserTags] = useState([])
+  const [id, setId] = useState(props.entryDetails.id)
+  const [tag, setTag] = useState(props.entryDetails.tag)
+  const [content, setContent] = useState(props.entryDetails.content)
+  const [answer, setAnswer] = useState(props.entryDetails.answer)
 
-  // enables the component to update the state if the prop changes i.e., when I filter the entries.
-  static getDerivedStateFromProps(nextProps, prevState) {
+  useEffect(() => {
+    document.getElementById(`tag-marker${id + props.entryKey}`).style.backgroundColor = tag.color;
+    getTags();
+  }, [])
 
-    if (nextProps.entryDetails.id != prevState.id) {
-      return {
-        id: nextProps.entryDetails.id,
-        tag: nextProps.entryDetails.tag,
-        content: nextProps.entryDetails.content,
-        answer: nextProps.entryDetails.answer
-      }
-    } else {
-      return null;
+  // when the prop changes i.e. filtering tags, then update the state
+  useEffect(() => {
+    if (props.entryDetails.id != id) {
+      setId(props.entryDetails.id)
+      setTag(props.entryDetails.tag)
+      setContent(props.entryDetails.content)
+      setAnswer(props.entryDetails.answer)
     }
+  }, [props])
 
-    // if (
-    //   props.entryDetails.tag !== state.tag ||
-    //   props.entryDetails.content !== state.content ||
-    //   props.entryDetails.answer !== state.answer
-    // ) {
-    //   return {
-    //     tag: props.entryDetails.tag,
-    //     content: props.entryDetails.content,
-    //     answer: props.entryDetails.answer
-    //   };
-    // }
-    // return null;
-  }
 
-  // UNSAFE_componentWillReceiveProps(props) {
-  //   this.setState({
-  //     tag: props.entryDetails.tag,
-  //     content: props.entryDetails.content,
-  //     answer: props.entryDetails.answer,
-  //   })
-  // }
-
-  componentDidUpdate() {
-    document.getElementById(`tag-marker${this.state.id + this.props.entryKey}`).style.backgroundColor = this.state.tag.color;
-    // console.log("state from entry component:", this.state);
-
-  }
-
-  getCookie(name) {
+  const getCookie = (name) => {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
       const cookies = document.cookie.split(';');
@@ -87,88 +46,9 @@ class Entry extends React.PureComponent {
     return cookieValue;
   }
 
-  showAnswer() {
-    const bt = document.getElementById(`answer-btn${this.state.id + this.props.entryKey}`);
-    const answerText = document.getElementById(`answer-text${this.state.id + this.props.entryKey}`);
-
-    if (bt.innerText === "See Answer") {
-      bt.innerText = "Hide Answer";
-    } else {
-      bt.innerText = "See Answer";
-    }
-
-    if (answerText.style.display === "" || answerText.style.display === "none") {
-      answerText.style.display = "flex";
-    } else {
-      answerText.style.display = "none";
-    }
-
-    // answerText.style.borderLeft = `5px solid ${this.state.tag.color}`;
-  }
-
-  toggleEditPane() {
-    const updatePaneId = `entry-form-holder${this.state.id + this.props.entryKey}`;
-    const editTextOption = document.getElementById(`edit-option${this.state.id + this.props.entryKey}`);
-    const confirmText = document.getElementById(`confirm-text-holder${this.state.id + this.props.entryKey}`);
-    $(`#${updatePaneId}`).slideToggle();
-
-    if (confirmText.style.display === "block") {
-      $(`#confirm-text-holder${this.state.id + this.props.entryKey}`).slideToggle("1000", "swing");
-    }
-    // $(`#confirm-text-holder${this.state.id + this.props.entryKey}`).slideToggle("1000", "swing");
-
-    // if (document.getElementById(updatePaneId).style.display !== '' ) {
-    //   const submitBtn = document.getElementById(`form-submit-btn${this.state.id + this.props.entryKey}`);
-    //   submitBtn.disabled = true;      
-    // }
-
-    if (editTextOption.style.color === "red") {
-      editTextOption.style.color = "black";
-
-    } else {
-      editTextOption.style.color = "red";
-
-    }
-
-  }
-
-  updateEntry(e) {
-    // console.log('updateEntry clicked');
-    e.preventDefault();
-
-    const updatePaneId = `entry-form-holder${this.state.id + this.props.entryKey}`;
-
-    var url = `http://127.0.0.1:8000/api/updateEntry/${this.state.id}/`;
-
-    const csrftoken = this.getCookie('csrftoken');
-    const entryTag = JSON.parse(document.getElementById(`userTag${this.state.id + this.props.entryKey}`).value);
-    const entryContent = document.getElementById(`content${this.state.id + this.props.entryKey}`).value;
-    const entryAnswer = document.getElementById(`answer${this.state.id + this.props.entryKey}`).value;
-
-    // console.log(JSON.stringify({ tag: entryTag, content: entryContent, answer: entryAnswer }));// console.log("Entry Tag:", entryTag);
-
-    fetch(url, {
-      method: "POST",
-      headers: {
-        'Content-type': 'application/json',
-        'X-CSRFToken': csrftoken
-      },
-      body: JSON.stringify({ tag: entryTag, content: entryContent, answer: entryAnswer })
-    })
-      .then((response) => response.json())
-      .then(data => {
-        this.setState(state => {
-          // console.log(data.tag);
-          return { tag: data.tag, content: data.content, answer: data.answer }
-        })//, () => console.log("new tag name:", data.tag.name))
-      })
-    this.toggleEditPane();
-
-  }
-
-  getTags() {
+  const getTags = () => {
     const url = `http://127.0.0.1:8000/api/Tags/`;
-    const csrftoken = this.getCookie('csrftoken');
+    const csrftoken = getCookie('csrftoken');
 
     fetch(url, {
       method: "GET",
@@ -180,17 +60,84 @@ class Entry extends React.PureComponent {
     })
       .then(response => response.json())
       .then(data => {
-        this.setState(state => {
-          return { userTags: data }
-        }, () => console.log())
+        setUserTags(data);
       })
 
   }
 
-  deleteEntry() {
-    const confirmText = document.getElementById(`confirm-text-holder${this.state.id + this.props.entryKey}`);
-    const url = `http://127.0.0.1:8000/api/deleteEntry/${this.state.id}/`;
-    const csrftoken = this.getCookie('csrftoken');
+  useEffect(() => {
+    document.getElementById(`tag-marker${id + props.entryKey}`).style.backgroundColor = tag.color;
+  }, [tag])
+
+  const showAnswer = () => {
+    const bt = document.getElementById(`answer-btn${id + props.entryKey}`);
+    const answerText = document.getElementById(`answer-text${id + props.entryKey}`);
+
+    bt.innerText = bt.innerText === "See Answer" ? "Hide Answer" : "See Answer";
+
+    if (answerText.style.display === "" || answerText.style.display === "none") {
+      answerText.style.display = "flex";
+    } else {
+      answerText.style.display = "none";
+    }
+  }
+
+
+  const toggleEditPane = () => {
+    const updatePaneId = `entry-form-holder${id + props.entryKey}`;
+    const editTextOption = document.getElementById(`edit-option${id + props.entryKey}`);
+    const confirmText = document.getElementById(`confirm-text-holder${id + props.entryKey}`);
+
+    $(`#${updatePaneId}`).slideToggle();
+
+    if (confirmText.style.display === "block") {
+      $(`#confirm-text-holder${id + props.entryKey}`).slideToggle("1000", "swing");
+    }
+
+    if (editTextOption.style.color === "red") {
+      editTextOption.style.color = "black";
+
+    } else {
+      editTextOption.style.color = "red";
+
+    }
+
+  }
+
+  const updateEntry = (e) => {
+    e.preventDefault();
+
+    const updatePaneId = `entry-form-holder${id + props.entryKey}`;
+
+    var url = `http://127.0.0.1:8000/api/updateEntry/${id}/`;
+
+    const csrftoken = getCookie('csrftoken');
+    const entryTag = JSON.parse(document.getElementById(`userTag${id + props.entryKey}`).value);
+    const entryContent = document.getElementById(`content${id + props.entryKey}`).value;
+    const entryAnswer = document.getElementById(`answer${id + props.entryKey}`).value;
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        'Content-type': 'application/json',
+        'X-CSRFToken': csrftoken
+      },
+      body: JSON.stringify({ tag: entryTag, content: entryContent, answer: entryAnswer })
+    })
+      .then((response) => response.json())
+      .then(data => {
+        setTag(data.tag)
+        setContent(data.content)
+        setAnswer(data.answer)
+      })
+    toggleEditPane();
+
+  }
+
+  const deleteEntry = () => {
+    const confirmText = document.getElementById(`confirm-text-holder${id + props.entryKey}`);
+    const url = `http://127.0.0.1:8000/api/deleteEntry/${id}/`;
+    const csrftoken = getCookie('csrftoken');
 
     if (confirmText.style.display == 'block') {
       fetch(url, {
@@ -201,67 +148,63 @@ class Entry extends React.PureComponent {
         },
       }).then(response => response.json())
         .then(data => {
-          console.log(data);
           window.location.reload();
         })
     }
 
-    $(`#confirm-text-holder${this.state.id + this.props.entryKey}`).slideToggle("1000", "swing");
+    $(`#confirm-text-holder${id + props.entryKey}`).slideToggle("1000", "swing");
 
   }
 
-  render() {
 
-    return (
-      <div className="entry-holder">
-        <div className="entry-element">
-          <div id={`tag-marker${this.state.id + this.props.entryKey}`} className="entry-element-tag-marker">
+  return (
+    <div className="entry-holder">
+      <div className="entry-element">
+        <div id={`tag-marker${id + props.entryKey}`} className="entry-element-tag-marker">
+        </div>
+        <div className="entry-element-content-holder">
+          <div className="edit-option-holder">
+            <p id={`edit-option${id + props.entryKey}`} className="edit-option grow grow-small" onClick={() => toggleEditPane()}><FontAwesomeIcon icon={solid('pen-to-square')} className="edit-entry-icon" /></p>
           </div>
-          <div className="entry-element-content-holder">
-            <div className="edit-option-holder">
-              <p id={`edit-option${this.state.id + this.props.entryKey}`} className="edit-option grow grow-small" onClick={() => this.toggleEditPane()}><FontAwesomeIcon icon={solid('pen-to-square')} className="edit-entry-icon" /></p>
-            </div>
-            <div className="entry-content-holder text-holder">
-              <p className="entry-content">{this.state.content}</p>
-            </div>
-            <div className="entry-content-holder answer-holder">
-              <button id={`answer-btn${this.state.id + this.props.entryKey}`} className="answer-btn" onClick={() => this.showAnswer()}>See Answer</button>
-              <p id={`answer-text${this.state.id + this.props.entryKey}`} className="answer-text">{this.state.answer}</p>
-            </div>
+          <div className="entry-content-holder text-holder">
+            <p className="entry-content">{content}</p>
+          </div>
+          <div className="entry-content-holder answer-holder">
+            <button id={`answer-btn${id + props.entryKey}`} className="answer-btn" onClick={() => showAnswer()}>See Answer</button>
+            <p id={`answer-text${id + props.entryKey}`} className="answer-text">{answer}</p>
           </div>
         </div>
-        <div id={`entry-form-holder${this.state.id + this.props.entryKey}`} className="entry-form-holder">
-          <form id={`entry-form${this.state.id + this.props.entryKey}`} className="entry-form" autoComplete='off'>
-            <select id={`userTag${this.state.id + this.props.entryKey}`} className="form-control form-elem tag-selector-field">
-              {this.state.userTags.map((i, k) => {
-                if (i.id == this.state.tag.id) {
-                  return <option value={JSON.stringify(i)} key={k} selected>{i.name}</option>
-                }
-                return <option value={JSON.stringify(i)} key={k}>{i.name}</option>
-              })}
-            </select>
-            {/* <p>{this.state.content}</p> */}
-            <div key={this.state.content}>
-              <textarea className="form-control form-elem content-field" type="text" name="content"
-                id={`content${this.state.id + this.props.entryKey}`} defaultValue={this.state.content} maxLength="250" onInput={this.enableButton} required></textarea>
+      </div>
+      <div id={`entry-form-holder${id + props.entryKey}`} className="entry-form-holder">
+        <form id={`entry-form${id + props.entryKey}`} className="entry-form" autoComplete='off'>
+          <select id={`userTag${id + props.entryKey}`} className="form-control form-elem tag-selector-field">
+            {userTags.map((i, k) => {
+              if (i.id == tag.id) {
+                return <option value={JSON.stringify(i)} key={k} selected>{i.name}</option>
+              }
+              return <option value={JSON.stringify(i)} key={k}>{i.name}</option>
+            })}
+          </select>
+          <div key={content}>
+            <textarea className="form-control form-elem content-field" type="text" name="content"
+              id={`content${id + props.entryKey}`} defaultValue={content} maxLength="250" required></textarea>
+          </div>
+          <div key={answer}>
+            <textarea className="form-control form-elem answer-field" type="text" name="answer"
+              id={`answer${id + props.entryKey}`} defaultValue={answer} maxLength="250" required />
+          </div>
+          <div className="update-delete-btn-holder">
+            <button id={`form-submit-btn${id + props.entryKey}`} className="btn update-entry-btn site-btn" type="submit" onClick={(e) => updateEntry(e)}>Save</button>
+            <FontAwesomeIcon icon={solid("trash")} id={`delete-entry-icon${id + props.entryKey}`} className="delete-entry-icon grow-small" onClick={deleteEntry} />
+            <div id={`confirm-text-holder${id + props.entryKey}`} className="confirm-text-holder">
+              <p className="confirm-text"><FontAwesomeIcon icon={solid("arrow-left")} /> Click again to confirm</p>
             </div>
-            <div key={this.state.answer}>
-              <textarea className="form-control form-elem answer-field" type="text" name="answer"
-                id={`answer${this.state.id + this.props.entryKey}`} defaultValue={this.state.answer} maxLength="250" onInput={this.enableButton} required />
-            </div>
-            <div className="update-delete-btn-holder">
-              <button id={`form-submit-btn${this.state.id + this.props.entryKey}`} className="btn update-entry-btn site-btn" type="submit" onClick={this.updateEntry}>Save</button>
-              <FontAwesomeIcon icon={solid("trash")} id={`delete-entry-icon${this.state.id + this.props.entryKey}`} className="delete-entry-icon grow-small" onClick={this.deleteEntry} />
-              <div id={`confirm-text-holder${this.state.id + this.props.entryKey}`} className="confirm-text-holder">
-                <p className="confirm-text"><FontAwesomeIcon icon={solid("arrow-left")} /> Click again to confirm</p>
-              </div>
-            </div>
-          </form>
-        </div >
+          </div>
+        </form>
       </div >
+    </div >
 
-    );
-  }
+  );
 }
 
 export default Entry;

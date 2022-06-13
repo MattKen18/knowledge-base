@@ -103,7 +103,7 @@ def createEntry(request):
     tag = Tag.objects.get(id=tag_id)
 
     entry = Entry.objects.create(
-        user=request.user, tag=tag, content="", answer="")
+        tag=tag, content="", answer="")
     entry.save()
 
     serializer = EntrySerializer(instance=entry, data=request.data)
