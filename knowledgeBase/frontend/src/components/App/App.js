@@ -15,25 +15,22 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro' // <-- import styles to be used
 
-class App extends React.Component {
-  render() {
-    return (
-      <div id="site-wrapper">
-        <Nav />
-        <div id='site-body' className=''>
-          <Router>
-            <Routes>
-              <Route path='/' element={<AuthProvider><PrivateRoute><Home /></PrivateRoute></AuthProvider>} />
-              <Route path='/Login' element={<Login />} />
-              <Route path='/Create' element={<Create />} />
-              <Route path='/ManageTags' element={<ManageTags />} />
-            </Routes>
-          </Router>
-        </div>
-
+const App = () => {
+  return (
+    <div id="site-wrapper">
+      <Nav />
+      <div id='site-body' className=''>
+        <Router>
+          <Routes>
+            <Route path='/' element={<AuthProvider><PrivateRoute><Home /></PrivateRoute></AuthProvider>} />
+            <Route path='/Login' element={<Login />} />
+            <Route path='/Create' element={<Create />} />
+            <Route path='/ManageTags' element={<ManageTags />} />
+          </Routes>
+        </Router>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default App;
