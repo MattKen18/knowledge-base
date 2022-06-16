@@ -107,20 +107,6 @@ const Tag = (props) => {
     }
   }
 
-  const onTagHover = () => {
-    const updateForm = document.getElementById(`update-tag-form${props.tagKey}`);
-    $(`#update-tag-form${props.tagKey}`).slideToggle("fast");
-
-  }
-
-  const onTagExitHover = () => {
-    const updateForm = document.getElementById(`update-tag-form${props.tagKey}`);
-    updateForm.reset();
-    const tag = document.getElementById(`tag-element-color${props.tagKey}`)
-    tag.style.transform = "scale(1)";
-    $(`#update-tag-form${props.tagKey}`).slideUp("fast");
-  }
-
   const updateTag = (e) => {
     e.preventDefault();
 
