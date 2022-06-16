@@ -140,7 +140,6 @@ const ManageTags = () => {
           <br></br>
           <p id="delete-tag-warning-message">Double click on tag to delete. <span>Warning!</span> all related entries will also be permanently deleted.</p>
           <div id="create-tag-form-holder">
-            <br></br>
             <form id="create-tag-form" className="form-horizontal">
               <div id="inner-tag-form">
                 <div className="form-group form-element-holder">
@@ -154,7 +153,6 @@ const ManageTags = () => {
                 <button type="submit" id="create-tag-btn" className="btn site-btn" onClick={createTag}>Create Tag</button>
               </div>
             </form>
-            <br></br>
           </div>
           <div id="tags-holder">
             {tags.map((tag, k) => {

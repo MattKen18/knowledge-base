@@ -14,6 +14,22 @@ const Tag = (props) => {
     fillTagColor();
   }, [tagColor])
 
+  useEffect(() => {
+    const tagItem = document.getElementById(`tag-element-color${props.tagKey}`);
+    const checkClick = (e) => {
+      if (tagItem.contains(e.target)) {
+        return;
+      } else {
+        revertTag();
+      }
+    }
+    window.addEventListener('click', checkClick)
+
+    return () => {
+      window.removeEventListener('click', checkClick) // removes event listener on unmount
+    }
+  }, [])
+
   const getCookie = (name) => {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -28,6 +44,18 @@ const Tag = (props) => {
       }
     }
     return cookieValue;
+  }
+
+  const scaleTag = () => {
+    const tagItem = document.getElementById(`tag-element-color${props.tagKey}`);
+    tagItem.style.transform = "scale(1.15)";
+    $(`#update-tag-form${props.tagKey}`).slideDown("fast");
+  }
+
+  const revertTag = () => {
+    const tagItem = document.getElementById(`tag-element-color${props.tagKey}`);
+    tagItem.style.transform = "scale(1)";
+    $(`#update-tag-form${props.tagKey}`).slideUp("fast");
   }
 
   useEffect(() => {
@@ -61,9 +89,7 @@ const Tag = (props) => {
 
   const onTagClick = () => {
     if (!props.deleting) {
-      const tag = document.getElementById(`tag-element-color${props.tagKey}`)
-      tag.style.transform = "scale(1.15)";
-      $(`#update-tag-form${props.tagKey}`).slideDown("fast");
+      scaleTag();
     } else {
       const tagElem = document.getElementById(`tag-element-color${props.tagKey}`);
       const clickedElems = document.getElementsByClassName("del-clicked");//prev clicked elems 
@@ -114,11 +140,13 @@ const Tag = (props) => {
       .then(data => {
         setTagName(data.name);
         setTagColor(data.color);
+        revertTag();
+
       })
   }
 
   return (
-    <div id={`tag-element-color${props.tagKey}`} className="tag-grid-element" onClick={onTagClick} onMouseLeave={onTagExitHover}>
+    <div id={`tag-element-color${props.tagKey}`} className="tag-grid-element" onClick={onTagClick}>
       <div className="tag-element-holder">
         <p className="tag-element-name">{tagName}</p>
         <div className="tag-grid-form-holder">
